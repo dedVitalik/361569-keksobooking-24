@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Виталий Винник](https://up.htmlacademy.ru/javascript/24/user/361569).
-* Наставник: `Неизвестно`.
+- Студент: [Виталий Винник](https://up.htmlacademy.ru/javascript/24/user/361569).
+- Наставник: [Роман Марченко](https://htmlacademy.ru/profile/id505487).
 
 ---
 
