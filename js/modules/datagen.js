@@ -1,9 +1,8 @@
 import {getRandIntBetween, getRandBetween} from './utils.js';
-
-const SIMILAR_ANNOUNCEMENT_COUNT = 10;
+import {constants} from './constants.js';
 
 const avatarIndexes = Array.from(
-  new Array(SIMILAR_ANNOUNCEMENT_COUNT),  (x, i) => i + 1);
+  new Array(constants.SIMILAR_ANNOUNCEMENT_COUNT),  (x, i) => i + 1);
 
 avatarIndexes.forEach((avatarIndex, index, avatarsIndexes) => {
   avatarIndex = avatarIndex.toString();
@@ -69,4 +68,4 @@ const createAnnouncement = () => {
   };
 };
 
-export {createAnnouncement, SIMILAR_ANNOUNCEMENT_COUNT};
+export {createAnnouncement};
