@@ -32,7 +32,9 @@ similarAnnouncements.forEach((announcement) => {
     }
   });
 
-  announcementBlock.querySelector('.popup__description').textContent = announcement.offer.description;
+  if (announcement.offer.description) {
+    announcementBlock.querySelector('.popup__description').textContent = announcement.offer.description;
+  } else {announcementBlock.querySelector('.popup__description').remove();}
 
   const photosTemplate = announcementBlock.querySelector('.popup__photo');
   announcementBlock.querySelector('.popup__photos').innerHTML = '';
