@@ -10,7 +10,7 @@ const similarAnnouncements = Array.from(
 );
 
 // eslint-disable-next-line no-console
-console.log(similarAnnouncements);
+// console.log(similarAnnouncements);
 
 similarAnnouncements.forEach((announcement) => {
   const announcementBlock = announcementTemplate.cloneNode (true);
@@ -46,4 +46,5 @@ similarAnnouncements.forEach((announcement) => {
   Announcements.appendChild(announcementBlock);
 });
 
-document.querySelector('#map-canvas').appendChild(Announcements);
+// Вставка сгенерированных объявлений на место карты
+// document.querySelector('#map-canvas').appendChild(Announcements);
