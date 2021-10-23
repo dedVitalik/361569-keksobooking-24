@@ -111,7 +111,20 @@ const roomsAndGuestsChecker = () => {
     }
   }
 };
-
 announcementRoomsInput.addEventListener ('change', roomsAndGuestsChecker);
+
+// check-in and check-out time validation
+const checkTimeFieldset = announcementForm.querySelector('fieldset.ad-form__element--time');
+const checkInInput = announcementForm.querySelector('select#timein');
+const checkOutInput = announcementForm.querySelector('select#timeout');
+
+checkTimeFieldset.addEventListener ('change', (evt) => {
+  if (evt.target === checkOutInput) {
+    checkInInput.value = checkOutInput.value;
+  } else {
+    checkOutInput.value = checkInInput.value;
+  }
+});
+
 
 export {makeFormInactive, makeFormActive};
