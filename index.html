@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="leaflet/leaflet.css">
     <title>Кексобукинг</title>
   </head>
   <body>
@@ -25,7 +26,9 @@
       <section class="map">
         <!-- Блок для вставки карты -->
         <div class="map__canvas" id="map-canvas">
-          <!-- Временная вставка была здесь -->
+          <!-- Временная вставка была здесь. Нужно будет удалить
+          этот комент и строки 49-50 из файла markupgen.js -->
+
 
         </div>
 
@@ -199,7 +202,7 @@
             <label class="ad-form__label" for="address"
               >Адрес (координаты)</label
             >
-            <input id="address" name="address" type="text" required />
+            <input id="address" name="address" type="text" required readonly/>
           </fieldset>
           <fieldset class="ad-form__element">
             <label class="ad-form__label" for="type">Тип жилья</label>
@@ -476,6 +479,7 @@
         <button type="button" class="error__button">Попробовать снова</button>
       </div>
     </template>
+    <script src="leaflet/leaflet.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
