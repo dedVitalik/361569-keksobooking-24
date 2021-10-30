@@ -3,14 +3,12 @@ import { constants } from './constants.js';
 
 const announcementTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const Announcements = document.createDocumentFragment();
+const announcementsInFragment = document.createDocumentFragment();
+const announcementsInArray = [];
 const similarAnnouncements = Array.from(
   { length: constants.SIMILAR_ANNOUNCEMENT_COUNT },
   createAnnouncement,
 );
-
-// eslint-disable-next-line no-console
-// console.log(similarAnnouncements);
 
 similarAnnouncements.forEach((announcement) => {
   const announcementBlock = announcementTemplate.cloneNode (true);
@@ -43,8 +41,19 @@ similarAnnouncements.forEach((announcement) => {
     newPhoto.src = photoUrl;
     announcementBlock.querySelector('.popup__photos').appendChild(newPhoto);
   });
-  Announcements.appendChild(announcementBlock);
+  // add html code of each announce to html fragment
+  announcementsInFragment.appendChild(announcementBlock);
+  // add html code of each announce and coords to array of objects
+  const announcemetCodeAndCoords = {
+    htmlCode: announcementBlock,
+    coords: announcement.offer.address,
+  };
+  announcementsInArray.push(announcemetCodeAndCoords);
 });
 
-// Вставка сгенерированных объявлений на место карты
-// document.querySelector('#map-canvas').appendChild(Announcements);
+// Вставка сгенерированных объявлений на место карты (уже не надо)
+// document.querySelector('#map-canvas').appendChild(announcementsFragment);
+// console.log(announcementsInArray[5]);
+// document.querySelector('footer').appendChild(announcementsInArray[5].htmlCode);
+
+export {announcementsInArray};

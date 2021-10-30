@@ -1,3 +1,5 @@
+import {announcementsInArray} from './markupgen.js';
+
 const announcementForm = document.querySelector('.ad-form');
 const announcementFormParts = document.querySelectorAll('.ad-form fieldset');
 const mapFiltersParts = document.querySelectorAll('.map__filters > *');
@@ -20,7 +22,12 @@ const makeFormActive = function () {
   announcementForm.classList.remove('ad-form--disabled');
   disabledToogleCollection (announcementFormParts, false);
   mapFilters.classList.remove('map__filters--disabled');
+  disabledToogleCollection (mapFiltersParts, false);
 };
+
+// address (geo)
+const adressInput = announcementForm.querySelector('input#address');
+adressInput.value = '35.68210, 139.75895';
 
 // announcement title validating
 const MIN_TITLE_LENGTH = 30;
@@ -126,5 +133,43 @@ checkTimeFieldset.addEventListener ('change', (evt) => {
   }
 });
 
+// map creating
+const announcementsMap = L.map('map-canvas').setView([35.68210, 139.75895], 14);
 
-export {makeFormInactive, makeFormActive};
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  maxZoom: 18,
+  id: 'mapbox/streets-v11',
+  tileSize: 512,
+  zoomOffset: -1,
+  accessToken: 'pk.eyJ1IjoiZGVkdml0YWxpayIsImEiOiJja3Y5cWN3cmcyY2Z1MnVzM3drNXpnM3EzIn0.oKCmV8lT6MJSgrBh8oATfA',
+}).addTo(announcementsMap);
+
+// main icon creating
+const mainIcon = L.icon({
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const mainMarker = L.marker([35.68210, 139.75895], {icon: mainIcon, draggable: true}).addTo(announcementsMap);
+
+mainMarker.on('move', (evt) => {
+  const coords = evt.target.getLatLng();
+  adressInput.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
+});
+
+// announcementS iconS creating
+announcementsInArray.forEach ((announce) => {
+  const icon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -38],
+  });
+  const coordsLatLng = announce.coords.split(', ');
+  const marker = L.marker([Number(coordsLatLng[0]), Number(coordsLatLng[1])], {icon: icon}).addTo(announcementsMap);
+  marker.bindPopup(announce.htmlCode);
+});
+
+export {makeFormInactive, makeFormActive, announcementsMap};
