@@ -1,4 +1,5 @@
-import {announcementsInArray} from './markupgen.js';
+import {announcementsLoader} from './serverapi.js';
+import {formatAnnouncements} from './formatter.js';
 
 const announcementForm = document.querySelector('.ad-form');
 const announcementFormParts = document.querySelectorAll('.ad-form fieldset');
@@ -23,6 +24,7 @@ const makeFormActive = function () {
   disabledToogleCollection (announcementFormParts, false);
   mapFilters.classList.remove('map__filters--disabled');
   disabledToogleCollection (mapFiltersParts, false);
+  console.log('Карта загружена');
 };
 
 // address (geo)
@@ -93,7 +95,7 @@ announcementLodgingInput.addEventListener('change', () => {
   announcementLodgingInput.reportValidity();
 });
 
-// rooms and guests quantity
+// rooms and guests quantity synchronization
 const announcementRoomsInput = announcementForm.querySelector('select#room_number');
 const announcementGuestsInput = announcementForm.querySelector('select#capacity');
 const announcementGuestsOptions = announcementGuestsInput.querySelectorAll('option');
@@ -160,16 +162,28 @@ mainMarker.on('move', (evt) => {
 });
 
 // announcementS iconS creating
-announcementsInArray.forEach ((announce) => {
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -38],
+
+const announementsIconsCreator = (announcementsInArray) => {
+  announcementsInArray.forEach ((announce) => {
+    const icon = L.icon({
+      iconUrl: './img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -38],
+    });
+    const coordsLatLng = announce.coords.split(', ');
+    const marker = L.marker([Number(coordsLatLng[0]), Number(coordsLatLng[1])], {icon: icon}).addTo(announcementsMap);
+    marker.bindPopup(announce.htmlCode);
   });
-  const coordsLatLng = announce.coords.split(', ');
-  const marker = L.marker([Number(coordsLatLng[0]), Number(coordsLatLng[1])], {icon: icon}).addTo(announcementsMap);
-  marker.bindPopup(announce.htmlCode);
-});
+};
+
+announcementsLoader().then((announcements) => {
+  announementsIconsCreator(formatAnnouncements(announcements));
+})
+  .catch((err) => {
+    // eslint-disable-next-line no-alert
+    alert (`Что то пошло не так, ошибка ${err}`);
+  });
+
 
 export {makeFormInactive, makeFormActive, announcementsMap};
