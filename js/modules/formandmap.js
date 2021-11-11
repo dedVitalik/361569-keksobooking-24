@@ -1,4 +1,4 @@
-import {announcementsLoader} from './serverapi.js';
+import {announcementsLoader, announcementSender} from './serverapi.js';
 import {formatAnnouncements} from './formatter.js';
 
 const announcementForm = document.querySelector('.ad-form');
@@ -12,7 +12,7 @@ const disabledToogleCollection = function (collection, trueOrFalse) {
   }
 };
 
-const makeFormInactive = function () {
+const makeFormInActive = function () {
   announcementForm.classList.add('ad-form--disabled');
   disabledToogleCollection (announcementFormParts, true);
   mapFilters.classList.add('map__filters--disabled');
@@ -135,6 +135,21 @@ checkTimeFieldset.addEventListener ('change', (evt) => {
   }
 });
 
+// form submitting (function)
+
+const setUserFormSubmit = (onSuccess) => {
+  announcementForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const announceformData = new FormData(evt.target);
+
+    announcementSender(
+      () => onSuccess(),
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      announceformData,
+    );
+  });
+};
+
 // map creating
 const announcementsMap = L.map('map-canvas').setView([35.68210, 139.75895], 14);
 
@@ -186,4 +201,4 @@ announcementsLoader().then((announcements) => {
   });
 
 
-export {makeFormInactive, makeFormActive, announcementsMap};
+export {makeFormInActive, makeFormActive, announcementsMap, setUserFormSubmit};

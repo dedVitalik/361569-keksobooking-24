@@ -1,8 +1,8 @@
 import './modules/formatter.js';
-import {makeFormInactive, makeFormActive, announcementsMap} from './modules/formandmap.js';
-import {announcementsLoader} from './modules/serverapi.js';
+import {makeFormInActive, makeFormActive, announcementsMap} from './modules/formandmap.js';
+// import {announcementsLoader} from './modules/serverapi.js';
 
-makeFormInactive();
+makeFormInActive();
 announcementsMap.on('load', makeFormActive());
 
 // announcementsLoader(console.log, console.error);

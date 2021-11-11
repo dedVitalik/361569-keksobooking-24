@@ -14,4 +14,27 @@ const announcementsLoader = () => fetch(
   //   onError(err);
   // });
 
-export {announcementsLoader};
+const announcementSender = (onSuccess, onFail, body) => {
+  fetch(
+    'https://24.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      }
+    })
+    .catch(() => {
+      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+    });
+};
+
+export {announcementsLoader, announcementSender};
